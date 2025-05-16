@@ -34,6 +34,7 @@ class User {
         this.correctAnswers.push(answerIndex);
     }
 }
+const player = new User();
 const questions = [];
 function generateQuestions() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -89,6 +90,13 @@ function handleSubmit() {
         if (selected) {
             const userAnswerIndex = Number(selected.value);
             const isCorrect = userAnswerIndex === question.correctAnswerIndex;
+            if (isCorrect) {
+                player.addToCorrectAnswers(userAnswerIndex);
+                player.increaseCorrectScore();
+            }
+            else {
+                player.decreaseCorrectScore();
+            }
             answers.push({
                 questionIndex: qsnIdx,
                 answerIndex: userAnswerIndex,

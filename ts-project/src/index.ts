@@ -33,6 +33,8 @@ class User {
   }
 }
 
+const player = new User();
+
 type QuestionType = {
   question: string;
   correctAnswerIndex: number;
@@ -120,6 +122,12 @@ function handleSubmit() {
     if (selected) {
       const userAnswerIndex = Number(selected.value);
       const isCorrect = userAnswerIndex === question.correctAnswerIndex;
+      if (isCorrect) {
+        player.addToCorrectAnswers(userAnswerIndex);
+        player.increaseCorrectScore();
+      } else {
+        player.decreaseCorrectScore();
+      }
 
       answers.push({
         questionIndex: qsnIdx,
