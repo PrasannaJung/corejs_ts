@@ -63,18 +63,40 @@ function showQuiz() {
         const questionTemplate = `
         <div class="quiz-question">
             <h4> ${question.question} </h4>
-            ${question.answers.map((ans) => {
+            ${Array.from(question.answers)
+            .map((ans, ansIdx) => {
             return `
                     <p>
-                        <input type="radio" name="${qsnIdx}" value="${ans}" />
-                        <label for="${ans}"> ${ans} </label>
+                        <input type="radio" id="q${qsnIdx}-${ansIdx}" name="q${qsnIdx}" value="${ansIdx}" />
+                        <label for="q${qsnIdx}-${ansIdx}">${ans}</label>
                     </p>
                 `;
-        })}
+        })
+            .join("")}
         </div>
     `;
         mainBox.insertAdjacentHTML("beforeend", questionTemplate);
     });
+    const submitBtn = document.createElement("button");
+    submitBtn.textContent = "Submit";
+    mainBox.insertAdjacentElement("afterend", submitBtn);
+    submitBtn.addEventListener("click", handleSubmit);
+}
+function handleSubmit() {
+    answers.length = 0; // clear previous answers
+    questions.forEach((question, qsnIdx) => {
+        const selected = document.querySelector(`input[name="q${qsnIdx}"]:checked`);
+        if (selected) {
+            const userAnswerIndex = Number(selected.value);
+            const isCorrect = userAnswerIndex === question.correctAnswerIndex;
+            answers.push({
+                questionIndex: qsnIdx,
+                answerIndex: userAnswerIndex,
+                status: isCorrect,
+            });
+        }
+    });
+    console.log(answers);
 }
 document.addEventListener("DOMContentLoaded", function () {
     return __awaiter(this, void 0, void 0, function* () {
