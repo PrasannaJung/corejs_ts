@@ -98,3 +98,61 @@ type ID = ObjType["age"];
 let id: ID;
 
 id = 11;
+
+type StringOrNumber<DataType> = {
+  id: DataType;
+};
+
+// UTILITY TYPES
+type Programmer = {
+  username: string;
+  language: string;
+  age: number;
+  gender?: string;
+};
+
+const programmerObj: Programmer = {
+  username: "",
+  language: "",
+  age: 20,
+};
+
+// Partial<Type> -> makes all properties optional
+type PartialProgrammer = Partial<Programmer>;
+
+const partialProgrammerObj: PartialProgrammer = {};
+
+// Required<Type> -> make all properties required even if originally optional
+type RequiredProgrammer = Required<Programmer>;
+
+const requiredProgrammerObj: RequiredProgrammer = {
+  username: "",
+  language: "",
+  age: 0,
+  gender: "",
+};
+
+// Pick<T,K> -> selects subset of properties from a type
+type PickedProgrammerProps = Pick<Programmer, "username">;
+
+// Omit<T,K> -> removes one or subset of properties from a type
+type OmittedProgrammerProps = Omit<Programmer, "language">;
+
+// Record<K,T> -> constructs a type with Keys of type K and values of type T
+type KeyNames = "username" | "role" | "gender";
+type ProgrammerPropsWithTypes = Record<KeyNames, string>;
+
+const progOb: ProgrammerPropsWithTypes = {
+  username: "prasanna",
+  role: "dev",
+  gender: "male",
+};
+
+// Redonly<T> -> makes all properties of T readonly
+type ReadonlyProgrammer = Readonly<Programmer>;
+
+// ReturnType<T> -> extracts the return type of a function
+async function myFn() {
+  return "Hello";
+}
+type StringReturn = ReturnType<() => "PrasannaJung">;
